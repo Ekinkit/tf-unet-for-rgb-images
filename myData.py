@@ -47,6 +47,7 @@ class dataProcess(object):
         ft.close()
         return trainimg_pathlist,trainmask_pathlist
 
+    
     def getTestPath(self):
         testtxtpath = "E:/oneplus/oneplus/val.txt"  # 验证过程
         tt = open(testtxtpath, 'r')
@@ -63,40 +64,7 @@ class dataProcess(object):
         return  testimg_pathlist,testmask_pathlist
 
 
-    def trainGen(self):
-        '''
-        traintxtpath = "E:/oneplus/oneplus/train.txt"
-        ft = open(traintxtpath,'r')
-        trainimg_pathlist = []
-        trainmask_pathlist = []
-
-        testtxtpath = "E:/oneplus/oneplus/val.txt"  #验证过程
-        tt = open(testtxtpath,'r')
-        testimg_pathlist = []
-        testmask_pathlist = []
-
-        tdata = ft.readlines()
-        tedata = tt.readlines()
-
-        for i,line in tdata:
-            #训练图像的位置数组
-            trainimgpath = line.split(" ")[0]
-            trainmaskpath= line[:-1].split(" ")[1]
-            trainimg_path = self.train_path + trainimgpath
-            trainmask_path = self.train_label + trainmaskpath
-            print(trainimg_path)
-            trainimg_pathlist.append(trainimg_path)
-            trainmask_pathlist.append(trainmask_path)
-
-        for j,line in tedata:
-            #val图像的位置数组
-            testimgpath = line.split(" ")[0]
-            testmaskpath = line.split(" ")[1]
-            testimg_path = self.test_path + testimgpath
-            testmask_path = self.test_label + testmaskpath
-            testimg_pathlist.append(testimg_path)
-            testmask_pathlist.append(testmask_path)
-        '''
+    def trainGen(self)
         trainimg_pathlist,trainmask_pathlist = self.getTrainPath()
         testimg_pathlist,testmask_pathlist = self.getTestPath()
         #imgs:图片的路径列表
@@ -121,29 +89,7 @@ class dataProcess(object):
                 imgdatas.append(img)
                 imglabels.append(label)
             yield np.array(imgdatas),np.array(imglabels)
-            '''
-        i=0
-        for x in range(len(imgs)):
-            imgpath = imgs[x]
-            labelpath = labels[x]
-            img = load_img(imgpath, grayscale=False, target_size=[512,512])
-            label = load_img(labelpath, grayscale=True, target_size=[512,512])
-            img = img_to_array(img)
-            label = self.label2class(img_to_array(label))
-            imgdatas[i] = img
-            imglabels[i] = label
-            i +=1
-
-
-        imgdatas = imgdatas.astype('float32')
-        imglabels = imglabels.astype('float32')
-        imgdatas /= 255.
-        imglabels /= 255.
-
-        return imgdatas,imglabels
-            '''
-
-
+            
 
     def valGen(self):
         print('loading the test img to predict')
@@ -168,11 +114,6 @@ class dataProcess(object):
         imgdatas /=255.
         print("loading the test img done")
         return imgdatas
-
-
-
-
-
 
 
     def create_train_data(self):
@@ -206,6 +147,7 @@ class dataProcess(object):
         np.save(self.npy_path + '/camvid_mask_train.npy', imglabels)
         print('Saving to .npy files done.')
 
+        
     def create_test_data(self):
         i = 0
         print('Creating test images...')
@@ -229,6 +171,7 @@ class dataProcess(object):
         np.save(self.npy_path + '/camvid_test.npy', imgdatas)
         print('Saving to imgs_test.npy files done.')
 
+        
     def load_train_data(self):
         print('load train images...')
         imgs_train = np.load(self.npy_path + "/camvid_train.npy")
